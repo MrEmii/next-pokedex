@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { TinyPokemon } from '../../interfaces';
+import { isFavorite } from '../../utis';
 
 const PokemonCard: FC<{ pokemon: TinyPokemon }> = ({ pokemon }) => {
   const router = useRouter();
@@ -14,7 +15,7 @@ const PokemonCard: FC<{ pokemon: TinyPokemon }> = ({ pokemon }) => {
   return (
     <Grid xs={6} sm={3}>
       <Card isHoverable isPressable onClick={onPress}>
-        <Card.Body css={{ p: 0 }}>
+        <Card.Body css={{ padding: '10px' }}>
           <Card.Image
             src={pokemon.img}
             objectFit="contain"
@@ -24,7 +25,7 @@ const PokemonCard: FC<{ pokemon: TinyPokemon }> = ({ pokemon }) => {
           />
         </Card.Body>
         <Card.Footer css={{ justifyItems: 'flex-start' }}>
-          <Row justify='space-evenly'>
+          <Row justify="space-evenly">
             <Text transform="capitalize" b>
               {pokemon.name}
             </Text>
@@ -35,7 +36,7 @@ const PokemonCard: FC<{ pokemon: TinyPokemon }> = ({ pokemon }) => {
                 fontSize: '$sm'
               }}
             >
-              #{pokemon.id}
+              #{pokemon.id} {isFavorite(pokemon.id) && '💖'}
             </Text>
           </Row>
         </Card.Footer>

@@ -1,17 +1,45 @@
 import { Button, Card, Container, Grid, Text } from '@nextui-org/react';
 import { NextPage, GetStaticPaths, GetStaticProps } from 'next';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import { PokeApi } from '../../api';
 import { Layout } from '../../components/layouts';
 import { Pokemon } from '../../interfaces';
+import { addFavorite, isFavorite, removeFavorite } from '../../utis';
+
+import confetti from 'canvas-confetti';
 
 interface Props {
   pokemon: Pokemon;
 }
 
 const PokemonPage: NextPage<Props> = ({ pokemon }) => {
-  const router = useRouter();
+  const [isInFavorite, setIsFavorite] = useState<boolean>(false);
+
+  const onToggleFavorite = () => {
+    if (!isFavorite(pokemon.id)) {
+      addFavorite(pokemon.id);
+      setIsFavorite(true);
+      confetti({
+        zIndex: 999,
+        particleCount: 100,
+        spread: 200,
+        startVelocity: 30,
+        angle: -100,
+        origin: {
+          x: 1,
+          y: 0
+        }
+      });
+    } else {
+      removeFavorite(pokemon.id);
+      setIsFavorite(false);
+    }
+  };
+
+  useEffect(() => {
+    setIsFavorite(isFavorite(pokemon.id));
+  }, []);
 
   return (
     <Layout
@@ -45,7 +73,7 @@ const PokemonPage: NextPage<Props> = ({ pokemon }) => {
           </Card>
         </Grid>
         <Grid xs={12} sm={8}>
-          <Card>
+          <Card css={{ padding: '10px' }}>
             <Card.Header
               css={{
                 display: 'flex',
@@ -56,16 +84,23 @@ const PokemonPage: NextPage<Props> = ({ pokemon }) => {
                 {pokemon.name}
               </Text>
 
-              <Button color="gradient" ghost>
-                Marcar Favorita
+              <Button
+                color="gradient"
+                ghost={!isInFavorite}
+                onClick={onToggleFavorite}
+              >
+                {isInFavorite ? 'Desmarcar favorito' : 'Marcar favorito'}
               </Button>
             </Card.Header>
 
             <Card.Body>
               <Text b>Sprites:</Text>
-              <Container direction="row" display='flex' css={{
-                width: '100%',
-              }}>
+              <Container
+                direction="row"
+                display="flex"
+                justify="space-between"
+                gap={0}
+              >
                 <Image
                   src={pokemon.sprites.front_default}
                   alt={pokemon.name}
