@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { Navbar } from '../ui';
 
 type Props = {
-  children?: JSX.Element | undefined;
+  children?: JSX.Element | JSX.Element[] | undefined;
   title?: string;
   description?: string;
   icon?: string;
@@ -16,7 +16,7 @@ const Layout: FC<Props> = ({
   icon
 }) => {
   return (
-    <>
+    <div>
       <Head>
         <title>{title}</title>
         <meta name="author" content="Emir Ali"></meta>
@@ -25,6 +25,19 @@ const Layout: FC<Props> = ({
           name="keywords"
           content={`Pokemon, App, React, NextJS, ${title}, ${description}`}
         ></meta>
+
+        <meta
+          property="og:title"
+          content={title}
+        />
+        <meta
+          property="og:description"
+          content={description}
+        />
+        <meta
+          property="og:image"
+          content={icon}
+        />
       </Head>
       <Navbar icon={icon} />
       <main
@@ -34,7 +47,7 @@ const Layout: FC<Props> = ({
       >
         {children}
       </main>
-    </>
+    </div>
   );
 };
 

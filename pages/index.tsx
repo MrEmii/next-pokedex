@@ -1,4 +1,4 @@
-import { Button, Card, Grid, Col, Text } from '@nextui-org/react';
+import { Button, Card, Grid, Col, Text, Image } from '@nextui-org/react';
 import type { NextPage } from 'next';
 import { Layout } from '../components/layouts';
 import { GetStaticProps } from 'next';
@@ -11,11 +11,12 @@ interface IndexPageProps {
   pokemons: TinyPokemon[];
 }
 
-const Home: NextPage<IndexPageProps> = props => {
+const Home: NextPage<IndexPageProps> = ({pokemons}) => {
   return (
     <Layout title="Pokemones :v">
+      <Image src="/img/banner.png"></Image>
       <Grid.Container gap={2} justify="flex-start">
-        {props.pokemons.map((pokemon, index) => (
+        {pokemons.map((pokemon, index) => (
           <PokemonCard key={index} pokemon={pokemon} />
         ))}
       </Grid.Container>

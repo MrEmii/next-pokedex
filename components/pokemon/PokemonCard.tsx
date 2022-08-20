@@ -1,12 +1,18 @@
 import { Grid, Card, Col, Button, Text, Row } from '@nextui-org/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { TinyPokemon } from '../../interfaces';
 import { isFavorite } from '../../utis';
 
 const PokemonCard: FC<{ pokemon: TinyPokemon }> = ({ pokemon }) => {
   const router = useRouter();
+
+  const [favorite, setFavorite] = useState<boolean>(false);
+
+  useEffect(() => {
+    setFavorite(isFavorite(pokemon.id));
+  });
 
   const onPress = () => {
     router.push(`/pokemon/${pokemon.id}`);
@@ -36,7 +42,8 @@ const PokemonCard: FC<{ pokemon: TinyPokemon }> = ({ pokemon }) => {
                 fontSize: '$sm'
               }}
             >
-              #{pokemon.id} {isFavorite(pokemon.id) && '💖'}
+              #{pokemon.id}
+              {favorite && <span>💖</span>}
             </Text>
           </Row>
         </Card.Footer>

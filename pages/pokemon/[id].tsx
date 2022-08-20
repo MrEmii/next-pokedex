@@ -5,7 +5,12 @@ import { useEffect, useState } from 'react';
 import { PokeApi } from '../../api';
 import { Layout } from '../../components/layouts';
 import { Pokemon } from '../../interfaces';
-import { addFavorite, isFavorite, removeFavorite } from '../../utis';
+import {
+  addFavorite,
+  getPokemonInfo,
+  isFavorite,
+  removeFavorite
+} from '../../utis';
 
 import confetti from 'canvas-confetti';
 
@@ -135,8 +140,6 @@ const PokemonPage: NextPage<Props> = ({ pokemon }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async ctx => {
-  // const { data } = await  // your fetch function here
-
   const pokemons151 = Array(151)
     .fill(0)
     .map((_, index) => ({ id: `${index + 1}` }));
@@ -151,12 +154,9 @@ export const getStaticPaths: GetStaticPaths = async ctx => {
 
 export const getStaticProps: GetStaticProps = async ctx => {
   const { id } = ctx.params as { id: string };
-
-  const { data } = await PokeApi.get<Pokemon>(`/pokemon/${id}`);
-
   return {
     props: {
-      pokemon: data
+      pokemon: await getPokemonInfo(id)
     }
   };
 };
