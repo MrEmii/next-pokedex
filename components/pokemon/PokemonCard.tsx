@@ -12,7 +12,7 @@ const PokemonCard: FC<{ pokemon: TinyPokemon }> = ({ pokemon }) => {
 
   useEffect(() => {
     setFavorite(isFavorite(pokemon.id));
-  });
+  }, [pokemon]);
 
   const onPress = () => {
     router.push(`/pokemon/${pokemon.id}`);

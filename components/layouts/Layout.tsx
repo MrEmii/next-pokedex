@@ -26,18 +26,15 @@ const Layout: FC<Props> = ({
           content={`Pokemon, App, React, NextJS, ${title}, ${description}`}
         ></meta>
 
-        <meta
-          property="og:title"
-          content={title}
-        />
-        <meta
-          property="og:description"
-          content={description}
-        />
-        <meta
-          property="og:image"
-          content={icon}
-        />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={icon} />
+
+        <meta property="twitter:title" content={title} />
+        <meta property="twitter:description" content={description} />
+        <meta property="twitter:image" content={icon} />
+
+        <meta property="twitter:card" content="summary" />
       </Head>
       <Navbar icon={icon} />
       <main
